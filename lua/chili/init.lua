@@ -204,4 +204,34 @@ function M._setup_filetype()
   })
 end
 
+--- Return the active connection label for use in statusline.
+--- Returns empty string if no active connection.
+---@return string statusline text
+function M.statusline()
+  local process = require("chili.process")
+  if not process.active_conn then
+    return ""
+  end
+  return "󰒋 " .. process.active_conn
+end
+
+--- Return the color for the active connection.
+--- For use with lualine's `color` option.
+---@return table|nil lualine-compatible color table { fg }
+function M.statusline_color()
+  local process = require("chili.process")
+  if not process.active_conn then
+    return nil
+  end
+
+  local env = process.env_type(process.active_conn)
+  local color_map = {
+    dev = { fg = "#a6e3a1" },
+    uat = { fg = "#f9e2af" },
+    prod = { fg = "#f38ba8" },
+    default = { fg = "#cdd6f4" },
+  }
+  return color_map[env] or color_map["default"]
+end
+
 return M

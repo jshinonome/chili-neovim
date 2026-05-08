@@ -318,8 +318,12 @@ end
 --- Close the process view sidebar.
 function M.close_process_view()
   if M._process_win and vim.api.nvim_win_is_valid(M._process_win) then
-    vim.api.nvim_win_close(M._process_win, true)
-    M._process_win = nil
+    if #vim.api.nvim_list_wins() == 1 then
+      vim.cmd("quit")
+    else
+      vim.api.nvim_win_close(M._process_win, true)
+      M._process_win = nil
+    end
   end
 end
 
@@ -571,8 +575,12 @@ end
 --- Close the output buffer.
 function M.close_output()
   if M._output_win and vim.api.nvim_win_is_valid(M._output_win) then
-    vim.api.nvim_win_close(M._output_win, true)
-    M._output_win = nil
+    if #vim.api.nvim_list_wins() == 1 then
+      vim.cmd("quit")
+    else
+      vim.api.nvim_win_close(M._output_win, true)
+      M._output_win = nil
+    end
   end
 end
 

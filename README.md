@@ -130,6 +130,27 @@ Tags create collapsible groups in the process sidebar. Tag groups are color-code
 | `.pep`     | pep      |
 | `.q`, `.k` | q        |
 
+## Statusline
+
+Show the active connection label in your statusline, color-coded by environment.
+
+### [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
+
+```lua
+lualine_x = {
+  {
+    function() return require("chili").statusline() end,
+    color = function() return require("chili").statusline_color() end,
+  },
+}
+```
+
+### Built-in statusline
+
+```vim
+set statusline+=%{%luaeval('require(\"chili\").statusline()')%}
+```
+
 ## License
 
 MIT
