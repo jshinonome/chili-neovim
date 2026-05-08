@@ -24,6 +24,18 @@ function M.set_opts(opts)
   M._opts = vim.tbl_deep_extend("force", M._opts, opts or {})
 end
 
+--- Count normal (non-floating) windows.
+---@return integer
+local function normal_win_count()
+  local count = 0
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_get_config(win).relative == "" then
+      count = count + 1
+    end
+  end
+  return count
+end
+
 -- ── Process View ──────────────────────────────────────────────────────
 
 --- Icon for tag groups based on environment name
@@ -318,7 +330,7 @@ end
 --- Close the process view sidebar.
 function M.close_process_view()
   if M._process_win and vim.api.nvim_win_is_valid(M._process_win) then
-    if #vim.api.nvim_list_wins() == 1 then
+    if normal_win_count() == 1 then
       vim.cmd("quit")
     else
       vim.api.nvim_win_close(M._process_win, true)
@@ -575,7 +587,7 @@ end
 --- Close the output buffer.
 function M.close_output()
   if M._output_win and vim.api.nvim_win_is_valid(M._output_win) then
-    if #vim.api.nvim_list_wins() == 1 then
+    if normal_win_count() == 1 then
       vim.cmd("quit")
     else
       vim.api.nvim_win_close(M._output_win, true)

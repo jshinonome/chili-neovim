@@ -212,7 +212,7 @@ function M.statusline()
   if not process.active_conn then
     return ""
   end
-  return "󰒋 " .. process.active_conn
+  return "󰒋 ◉ " .. process.active_conn
 end
 
 --- Return the color for the active connection.
