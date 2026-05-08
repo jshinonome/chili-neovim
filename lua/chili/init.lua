@@ -12,7 +12,7 @@ M._defaults = {
   keymaps = {
     send_all = "<C-a>",
     send_line = "<C-q>",
-    send_selection = "<C-e>",
+    send_selection = "<C-r>",
     process_view = "<leader>cp",
     toggle_output = "<leader>co",
   },

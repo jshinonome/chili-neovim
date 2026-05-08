@@ -1,14 +1,14 @@
 # 🌶 chili.nvim
 
-A Neovim plugin for kdb+/q process management and code execution, with built-in IPC support.
+A Neovim plugin for [chili](https://github.com/purple-chili/chili) (chi/pep) and kdb+/q — with syntax highlighting, process management, and built-in IPC support.
 
 ## Features
 
-- **Process Manager** — sidebar tree view of kdb+ connections, grouped by tags
-- **kdb+ IPC** — async TCP communication using protocol version 6 (little-endian)
+- **Syntax Highlighting** — bundled syntax files for `.chi`, `.pep`, and `.q`
+- **Process Manager** — sidebar tree view of connections, grouped by tags
 - **Code Execution** — send entire buffer, current line, or visual selection to the active connection
 - **Output Buffer** — timestamped results in a split window
-- **Syntax Highlighting** — bundled syntax files for q, chi, and pep
+- **IPC** — async TCP communication with auth handshake and compression support
 
 ## Requirements
 
@@ -33,7 +33,7 @@ A Neovim plugin for kdb+/q process management and code execution, with built-in 
 Clone the repo and add to your runtime path:
 
 ```vim
-set runtimepath+=~/path/to/chili.nvim
+set runtimepath+=~/path/to/chili-neovim
 ```
 
 ## Configuration
@@ -42,13 +42,15 @@ All options are optional:
 
 ```lua
 require("chili").setup({
-  output_position = "bottom",  -- "bottom" | "right"
-  output_height = 15,          -- rows for bottom split
-  output_width = 80,           -- cols for right split
+  config_path = nil,             -- default: ~/.config/chili-neovim/process-cfg.json
+  timeout_secs = 5,             -- connection timeout in seconds
+  output_position = "bottom",   -- "bottom" | "right"
+  output_height = 15,           -- rows for bottom split
+  output_width = 80,            -- cols for right split
   keymaps = {
     send_all       = "<C-a>",       -- send entire buffer
     send_line      = "<C-q>",       -- send current line
-    send_selection = "<C-e>",       -- send visual selection
+    send_selection = "<C-r>",       -- send visual selection
     process_view   = "<leader>cp",  -- toggle process sidebar
     toggle_output  = "<leader>co",  -- toggle output buffer
   },
@@ -57,7 +59,7 @@ require("chili").setup({
 
 ## Process Configuration
 
-filepath: `~/.config/chili-neovim/process-cfg.json`:
+Filepath: `~/.config/chili-neovim/process-cfg.json`
 
 ```json
 [
@@ -74,18 +76,20 @@ filepath: `~/.config/chili-neovim/process-cfg.json`:
 ]
 ```
 
-Tags create collapsible groups in the process sidebar. The active connection label is color-coded:
+Tags create collapsible groups in the process sidebar. Tag groups are color-coded by environment:
 
-- 🟢 **Green** — `dev`
-- 🟡 **Yellow** — `uat` / `qa`
-- 🔴 **Red** — `prod` / `prd`
+| Tag pattern    | Color     |
+| -------------- | --------- |
+| `dev`          | 🟢 Green  |
+| `uat` / `qa`   | 🟡 Yellow |
+| `prod` / `prd` | 🔴 Red    |
 
 ## Commands
 
 | Command                    | Description                           |
 | -------------------------- | ------------------------------------- |
 | `:ChiliProcessView`        | Toggle process tree sidebar           |
-| `:ChiliProcessAdd`         | Add a new kdb+ process                |
+| `:ChiliProcessAdd`         | Add a new process                     |
 | `:ChiliProcessEdit`        | Edit process under cursor             |
 | `:ChiliConnect <label>`    | Connect to a process (tab-completion) |
 | `:ChiliDisconnect [label]` | Disconnect (defaults to active)       |
@@ -102,7 +106,7 @@ Tags create collapsible groups in the process sidebar. The active connection lab
 | ------------ | ---- | --------------------- |
 | `<C-a>`      | n    | Send entire buffer    |
 | `<C-q>`      | n    | Send current line     |
-| `<C-e>`      | v    | Send visual selection |
+| `<C-r>`      | v    | Send visual selection |
 | `<leader>cp` | n    | Toggle process view   |
 | `<leader>co` | n    | Toggle output buffer  |
 
@@ -122,9 +126,9 @@ Tags create collapsible groups in the process sidebar. The active connection lab
 
 | Extension  | Filetype |
 | ---------- | -------- |
-| `.q`, `.k` | q        |
 | `.chi`     | chi      |
 | `.pep`     | pep      |
+| `.q`, `.k` | q        |
 
 ## License
 

@@ -1,0 +1,6 @@
+version: "3"
+
+tasks:
+  test:
+    desc: Test plugin with minimal config (no user plugins)
+    cmd: nvim --clean --cmd "set runtimepath+={{.ROOT_DIR}}" {{.CLI_ARGS}}

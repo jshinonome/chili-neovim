@@ -297,7 +297,7 @@ function M.open_process_view()
   M.refresh_process_view()
 
   -- Open vertical split on the left
-  vim.cmd("topleft vnew")
+  vim.cmd("topleft vsplit")
   M._process_win = vim.api.nvim_get_current_win()
   vim.api.nvim_win_set_buf(M._process_win, buf)
   vim.api.nvim_win_set_width(M._process_win, 36)

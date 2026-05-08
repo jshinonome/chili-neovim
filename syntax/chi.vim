@@ -1,6 +1,9 @@
 " Vim syntax file
 " Language:     chi
 
+let s:cpo_save = &cpo
+set cpo&vim
+
 if !exists("main_syntax")
   if version < 600
     syntax clear
@@ -41,6 +44,13 @@ syn match   chiliTimestamp          "\v<([12]\d{3}\.(0[1-9]|1[0-2])\.(0[1-9]|[12
 syn match   chiliDatetime           "\v<([12]\d{3}\.(0[1-9]|1[0-2])\.(0[1-9]|[12]\d|3[01]))T>"
 syn match   chiliDatetime           "\v<([12]\d{3}\.(0[1-9]|1[0-2])\.(0[1-9]|[12]\d|3[01]))T([01]\d|2[0-3])(:([0-5]\d)(:([0-5]\d(\.\d{0,3})?))?)?>"
 
+if main_syntax == "chi"
+  syn sync fromstart
+  syn sync maxlines=100
+
+  syn sync ccomment chiliComment
+endif
+
 syn keyword chiliConditional        do while if function return raise try catch
 " use list() to output all built-in functions
 syn keyword chiliKeyword            abs acos acosh aj all anti args as asc asin asinh assert atan atanh bfill bottom cbrt ccount ceil cj clip cmax cmin col cols concat console corr cos cosh cot count cov0 cov1 cprod cross csum del desc describe diff differ div each emean enlist equal estd eval evalc evali evar exists exit exp explode extend fail fby fill filter first fj flag flatten flip floor get hash hdel hstack ij import in interp intersect inv join key kurtosis last like list lit lj ln load local log log10 log1p lowercase matches max mean median min mmax mmean mmedian mmin mod mode mquantile mskew mstd0 mstd1 msum mvar0 mvar1 neg next not now null over pad par parallel pc pivot pow prev prod quantile range rank rbin rcsv rdatabase replace replay replay_q reshape reverse rexcel rjson rotate round rparquet rtxt scan schema semi set shift show shuffle sign sin sinh skew split sqrt ss ssr std0 std1 sub_q sum tables tan tanh tick timeit today top transpose trim trime trims type tz uc union unique unpivot uppercase upsert utc var0 var1 vstack wbin wcsv wdatabase wexcel when within wj wjson wmean wpar wparquet wsum wtxt xasc xbar xdesc xrename xreorder
@@ -60,15 +70,15 @@ hi def link chiliSymbol                 Constant
 hi def link chiliNull                   Constant
 hi def link chiliInfinity               Constant
 hi def link chiliDate                   Constant
-hi def link chiliMonth                  Constant
 hi def link chiliTime                   Constant
 hi def link chiliTimespan               Constant
 hi def link chiliTimestamp              Constant
 hi def link chiliDatetime               Constant
-hi def link chiliCommand                Constant
 hi def link chiliIdentifier             Function
 
 let b:current_syntax = "chi"
 if main_syntax == 'chi'
   unlet main_syntax
 endif
+let &cpo = s:cpo_save
+unlet s:cpo_save
