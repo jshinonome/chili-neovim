@@ -484,7 +484,7 @@ end
 ---@param elapsed number elapsed time in seconds
 function M.append_output(text, elapsed)
   local now = os.date("%Y-%m-%d %H:%M:%S")
-  local time_str = string.format("<--- %s %.6fs --->", now, elapsed)
+  local time_str = string.format("<--- %s %.3fms --->", now, elapsed * 1000)
 
   M._output_lines[#M._output_lines + 1] = time_str
   for line in (text .. "\n"):gmatch("([^\n]*)\n") do
