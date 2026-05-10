@@ -16,6 +16,15 @@ M._defaults = {
     process_view = "<leader>cp",
     toggle_output = "<leader>co",
   },
+  lsp = {
+    cmd = { "chiz", "server" },
+    filetypes = { "chi", "pep" },
+    document_highlight = true,
+    format_on_save = true,
+  },
+  cmp = {
+    keyword_length = 2,
+  },
 }
 
 --- Active configuration
@@ -37,10 +46,12 @@ function M.setup(opts)
   local ui = require("chili.ui")
   local execute = require("chili.execute")
   local process = require("chili.process")
+  local lsp = require("chili.chiz")
 
   -- Wire up cross-module references
   execute.set_ui(ui)
   ui.set_opts(M._opts)
+  lsp.set_opts(M._opts)
 
   -- Setup highlight groups
   ui.setup_highlights()
@@ -56,6 +67,9 @@ function M.setup(opts)
 
   -- Setup filetype detection for q files
   M._setup_filetype()
+
+  -- Setup LSP, completion, and format-on-save
+  lsp.setup()
 end
 
 --- Register user commands.

@@ -14,6 +14,14 @@ A Neovim plugin for [chili](https://github.com/purple-chili/chili) (chi/pep) and
 
 - Neovim ≥ 0.9
 - A Nerd Font (for sidebar icons)
+- [chiz](https://github.com/purple-chili/chili) binary on `$PATH` (for LSP)
+
+### Optional (for completion)
+
+- [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
+- [cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp)
+- [cmp-buffer](https://github.com/hrsh7th/cmp-buffer)
+- [cmp-vsnip](https://github.com/hrsh7th/cmp-vsnip) + [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
 
 ## Installation
 
@@ -22,6 +30,13 @@ A Neovim plugin for [chili](https://github.com/purple-chili/chili) (chi/pep) and
 ```lua
 {
   "jshinonome/chili-neovim",
+  dependencies = {
+    "hrsh7th/nvim-cmp",
+    "hrsh7th/cmp-nvim-lsp",
+    "hrsh7th/cmp-buffer",
+    "hrsh7th/cmp-vsnip",
+    "hrsh7th/vim-vsnip",
+  },
   config = function()
     require("chili").setup()
   end,
@@ -53,6 +68,15 @@ require("chili").setup({
     send_selection = "<C-r>",       -- send visual selection
     process_view   = "<leader>cp",  -- toggle process sidebar
     toggle_output  = "<leader>co",  -- toggle output buffer
+  },
+  lsp = {
+    cmd = { "chiz", "server" },     -- language server command
+    filetypes = { "chi", "pep" },   -- filetypes to attach LSP
+    document_highlight = true,      -- highlight symbol under cursor
+    format_on_save = true,          -- auto-format on BufWritePre
+  },
+  cmp = {
+    keyword_length = 2,             -- min chars before completion triggers
   },
 })
 ```
